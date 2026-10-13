@@ -1,8 +1,5 @@
 # RevenuIQ: Restaurant Revenue Prediction and Site Evaluation
 
-Course project for **22MDC56 Machine Learning Laboratory**
-Author: Mithra Omprakash
-
 RevenuIQ predicts the annual revenue of a restaurant branch and turns the forecast into a site decision (**OPEN / REVIEW / AVOID**). It is built on the Kaggle *TFI Restaurant Revenue Prediction* dataset and delivered as an interactive Streamlit app.
 
 ---
