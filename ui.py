@@ -2,6 +2,22 @@ import numpy as np, pandas as pd, streamlit as st
 import pipeline as pl
 INK, CLAY, GOLD, MOSS, SAND, CREAM = "#F3EBDD", "#E0673F", "#D9B45A", "#5FA37A", "#3A3028", "#F6F2EA"
 
+LABELS = {  # ILLUSTRATIVE labels for anonymised TFI indicators (not the real definitions)
+    "P1": "Population density index",
+    "P2": "Foot traffic index",
+    "P6": "Parking & access score",
+    "P8": "Mall / retail anchor score",
+    "P11": "Competitor presence index",
+    "P13": "Public transport proximity",
+    "P21": "Office & retail density",
+    "P22": "Neighbourhood growth index",
+    "P28": "Household income index",
+    "P29": "Residential area size index",
+}
+
+def lab(k):
+    return f"{LABELS[k]} ({k})" if k in LABELS else k
+
 def svg(kind, size, style):
     s = {"plate": '<circle cx="50" cy="50" r="46" fill="#F6F2EA"/><circle cx="50" cy="50" r="34" fill="none" stroke="#C9A24B" stroke-width="2"/><circle cx="50" cy="50" r="22" fill="#B4492D" opacity=".85"/><path d="M42 44q8-10 16 0" stroke="#F6F2EA" stroke-width="3" fill="none"/>',
          "coin": '<circle cx="50" cy="50" r="44" fill="#C9A24B"/><circle cx="50" cy="50" r="34" fill="none" stroke="#F6F2EA" stroke-width="2" opacity=".8"/><text x="50" y="62" font-size="38" text-anchor="middle" fill="#1F1B16" font-family="serif">$</text>',
@@ -66,7 +82,8 @@ def site_inputs(key, X, imp, A):
     row = A["medians"].copy(); row["days_open"], row["is_big_city"] = days, int(grp == "Big Cities")
     for t in ["FC", "IL", "DT", "MB"]: row[f"type_{t}"] = int(typ.startswith(t))
     for k in [i for i in imp.index if i.startswith("P")][:4]:
-        row[k] = st.slider(k, 0.0, float(X[k].max()), float(X[k].median()), key=key + k)
+        row[k] = st.slider(lab(k), 0.0, float(X[k].max()), float(X[k].median()), key=key + k)
+    st.caption("Indicator names are illustrative labels for anonymised data.")
     return row
 
 def predict(A, rows):

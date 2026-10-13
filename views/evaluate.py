@@ -29,6 +29,7 @@ with b:
     for k in tops:
         lo, hi = float(ui.predict(A, [dict(row, **{k: X[k].quantile(.1)})])[0]), float(ui.predict(A, [dict(row, **{k: X[k].quantile(.9)})])[0]); d.append((k, lo - p, hi - p))
     t = pd.DataFrame(d, columns=["Lever", "Low (10th pct)", "High (90th pct)"])
+    t["Lever"] = t["Lever"].map(ui.lab)
     f = go.Figure([go.Bar(y=t.Lever, x=t[c] / 1e6, name=c, orientation="h", marker_color=m) for c, m in [("Low (10th pct)", ui.CLAY), ("High (90th pct)", ui.MOSS)]])
     f.update_layout(barmode="relative", title="Lever sensitivity ($M change)", xaxis_title="Revenue change ($M)"); st.plotly_chart(ui.style(f, 300), use_container_width=True)
 days = np.arange(0, 8001, 250); c = ui.predict(A, [dict(row, days_open=x) for x in days])
